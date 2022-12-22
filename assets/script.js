@@ -1,1 +1,0 @@
-//Use an array to store question identifiers. When the Start button is clicked and each time a question is submitted, use a random number to select another question from the array, then remove that question from the array.
