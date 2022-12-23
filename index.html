@@ -9,8 +9,25 @@
     </head>
     <body>
         <!-- The header should include a link to view scores and a timer. The timer consists of a p with two spans separated by a colon. The spans are for minutes and seconds. -->
+        <header>
+            <p class="scores-link" id="scores-link">View Scores</p>
+            <p class="timer" id="timer">Time Remaining: <span id="mins" >10</span>:<span id="secs">00</span></p>
+        </header>
+
         <!-- The body should include a heading (title), a p (instructions), and a button (start timer, display:none the existing body content, and show first question). -->
-        
+        <aside id="score-tracker">
+            <h2>Previous Scores</h2>
+            <section id="scores">
+                <ul id="score-list"></ul>
+            </section>
+        </aside>
+        <main>
+            <section id="welcome">
+                <h1>JavaScript Quiz</h1>
+                <p>When you are ready, click the Start Quiz button below to begin the quiz. You will have 10 minutes to answer 10 questions. For each incorrect answer, 20 seconds will be deducted from your remaining time. Your score will be the number of seconds remaining when you have answered all questions or when time runs out. Good luck!</p>
+                <button id="start">Start Quiz</button>
+            </section>
+        </main>
         <script src="./assets/javascript/script.js" async defer></script>
     </body>
 </html>
