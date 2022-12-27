@@ -1,1 +1,134 @@
+/* Use variables to store theme colors. */
+:root {
+    --light-background-color:#fcf5d9;
+    --medium-light-accent:#BDB7A2;
+    --medium-dark-accent:#7D796B;
+    --dark-foreground-color:#3D3B35;
+    --light-accent:#E3DDC3;
+}
+
+/* Style and positioning rules */
 /* Apply styling based on h3 (question text) and .answer-choice */
+body {
+    color:var(--dark-foreground-color);
+    line-height:1.6;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin:0px;
+    background-color: var(--light-background-color);
+    font-size:18px;
+}
+
+header {
+    background-color: var(--light-accent);
+    display:flex;
+    justify-content: space-between;
+}
+
+header p {
+    font-size:20px;
+    flex:0 0 auto;
+    padding-left:2%;
+    padding-right:2%;
+}
+
+.timer {
+    width:fit-content;
+}
+
+aside {
+    background-color: var(--medium-light-accent);
+    display:none;
+}
+
+#score-list {
+    list-style:none;
+}
+
+main {
+    padding:0.7em;
+}
+
+h1 {
+    font-size:250%;
+    text-align:center;
+}
+
+h2 {
+    font-size:200%;
+}
+
+#welcome p {
+    text-align: justify;
+}
+
+button {
+    background-color: var(--medium-light-accent);
+    color:var(--dark-foreground-color);
+    border-radius:3px;
+    font-size:16px;
+    border:1px solid var(--dark-foreground-color);
+    float:right;
+}
+
+h3 {
+    font-size:170%;
+    text-align:justify;
+}
+
+code {
+    color:var(--medium-dark-accent);
+    overflow: scroll;
+    background-color: var(--light-accent);
+    margin-left:5%;
+    margin-right:5%;
+}
+
+.answers {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.answer-choice {
+    flex: 0 1 auto;
+    border: 2px solid var(--medium-dark-accent);
+    border-radius:3px;
+    background-color:var(--medium-light-accent);
+}
+
+footer {
+    margin-top:10%;
+    background-color:var(--light-accent);
+    font-size:16px;
+    text-align: center;
+    line-height:3;
+}
+
+@media screen and (min-width: 481px) {
+    body {
+        font-size: max(min(3vw, 28px), 1rem);
+    }
+
+    header p {
+        font-size: max(min(3.2vw, 32px), 1.2rem);
+    }
+
+    button {
+        font-size: max(min(3vw, 28px), 1rem);
+        margin-top:1rem;
+    }
+
+    footer {
+        font-size: max(min(2vw, 16px), 16px);
+    }
+
+    .answer-choice {
+        flex: 0 1 40%;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .answer-choice {
+        flex: 0 1 22%;
+    }
+}
