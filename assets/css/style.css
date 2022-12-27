@@ -87,13 +87,15 @@ code {
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    list-style:none;
 }
 
 .answer-choice {
-    flex: 0 1 auto;
+    flex: 0 1 80%;
     border: 2px solid var(--medium-dark-accent);
     border-radius:3px;
     background-color:var(--medium-light-accent);
+    text-align:center;
 }
 
 footer {
