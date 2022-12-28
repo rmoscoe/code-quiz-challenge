@@ -4,25 +4,28 @@ let idCounter = 0;
 const mainSec = document.querySelector("main");
 const welcome = document.getElementById("welcome");
 const startButton = document.getElementById("start");
-const rawQuestions = ["Which of the following tags runs JavaScript on a webpage?"];
+const rawQuestions = ["Which of the following HTML tags runs JavaScript on a webpage?"];
 const multiSelectQuestion = [false];
 const rawCode = [""];
-const rawAnswers = [[{text:"&ltlink&gt", dataCorrect:"incorrect"}, {text:"&lta&gt", dataCorrect:"incorrect"}, {text:"&ltsrc&gt", dataCorrect:"correct"}, {text:"&lthref&gt", dataCorrect:"incorrect"}]];
+const rawAnswers = [[{text:"&ltlink&gt", dataCorrect:false}, {text:"&lta&gt", dataCorrect:false}, {text:"&ltscript&gt", dataCorrect:true}, {text:"&lthref&gt", dataCorrect:false}]];
+const rawFeedback = ["The <script> tag runs JavaScript. The <link> tag links a CSS stylesheet, the <a> tag creates a hyperlink, and href is not a tag; it is an attribute of the <a> tag."]
 let questions = [];
 let multiSelect = false;
 let secondsRemaining = 600;
 let mins = 10;
 let secs = 0;
 let timer;
+let currentQuestion;
 
 //Each question object contains properties for the question and answer choices, as well as inner HTML that includes class attributes.
 class Question {
-    constructor(id, question, multiSelect, code, answers) {
+    constructor(id, question, multiSelect, code, answers, feedback) {
         this.id = id;
         this.question = question;
         this.multiSelect = multiSelect;
         this.code = code;
         this.answers = answers;
+        this.feedback = feedback;
         this.section = document.createElement("section");
         this.section.className = "question";
         this.section.innerHTML = "<h3>" + this.question + "</h3> <br /> <code>" + this.code + "</code><br /> <ul class = 'answers'><li class = 'answer-choice' data-correct = '" + this.answers[0].dataCorrect + "'>" + this.answers[0].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[1].dataCorrect + "'>" + this.answers[1].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[2].dataCorrect + "'>" + this.answers[2].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[3].dataCorrect + "'>" + this.answers[3].text + "</li></ul><br /> <button class = 'submit'>Submit</button>";
@@ -36,7 +39,7 @@ startButton.addEventListener("click", startQuiz);
 //Use an array to store question objects. When the Start button is clicked and each time a question is submitted, use a random number to select another question from the array, then remove that question from the array.
 function buildQuestionsArr() {
     for (let i = 0; i < rawQuestions.length; i++) {
-        questions.push(new Question(idCounter, rawQuestions[i], multiSelectQuestion[i], rawCode[i], rawAnswers[i]));
+        questions.push(new Question(idCounter, rawQuestions[i], multiSelectQuestion[i], rawCode[i], rawAnswers[i], rawFeedback[i]));
     }
 }
 
@@ -67,6 +70,7 @@ function pickQuestion() {
     }
     if (questions.length > 0) {
         let newQuestion = questions[Math.floor(Math.random() * questions.length)]
+        currentQuestion = newQuestion;
 
         //Dynamically create and add elements using the stored properties of the question objects.
         mainSec.appendChild(newQuestion.section);
@@ -83,7 +87,30 @@ function pickQuestion() {
 }
 
 function submitQuestion() {
+    let responseCorrect = false;
 
+    //Select the last child of the mainSec. For each answer choice, if the choice is selected and correct or not selected and incorrect, change responseCorrect to true. If the choice is selected and incorrect or not selected and correct, change responseCorrect to false and break the loop. 
+    const answerList = mainSec.lastElementChild.children[4];
+    for (let i = 0; i < answerList.children.length; i++) {
+        if ((answerList.children[i].matches(".selected") && answerList.children[i].getAttribute("data-correct") === "true") || (answerList.children[i].matches(".selected") == false && answerList.children[i].getAttribute("data-correct") === "false")) {
+            responseCorrect = true;
+            console.log("Response Correct: " + responseCorrect);
+        } else {
+            responseCorrect = false;
+            console.log("Response Correct: " + responseCorrect);
+            break;
+        }
+    }
+
+    //Alert the response status, the feedback from the question object, and--if incorrect--that 20 seconds will be deducted. Deduct 20 seconds if applicable, then call pickQuestion.
+    if (responseCorrect) {
+        alert(`That's right! ${currentQuestion.feedback}`);
+    } else {
+        alert(`That's incorrect. ${currentQuestion.feedback} 20 seconds will be deducted from your remaining time.`);
+        secondsRemaining -= 20;
+    }   
+    
+    pickQuestion();
 }
 
 function startQuiz() {
