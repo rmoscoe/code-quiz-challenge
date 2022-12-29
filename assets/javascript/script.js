@@ -4,6 +4,8 @@ let idCounter = 0;
 const mainSec = document.querySelector("main");
 const welcome = document.getElementById("welcome");
 const startButton = document.getElementById("start");
+const saveScore = document.getElementById("save-score");
+const initialsButton = document.getElementById("submit-initials");
 const rawQuestions = ["Which of the following HTML tags runs JavaScript on a webpage?"];
 const multiSelectQuestion = [false];
 const rawCode = [""];
@@ -35,6 +37,7 @@ class Question {
 }
 
 startButton.addEventListener("click", startQuiz);
+initialsButton.addEventListener("click", submitInitials);
 
 //Use an array to store question objects. When the Start button is clicked and each time a question is submitted, use a random number to select another question from the array, then remove that question from the array.
 function buildQuestionsArr() {
@@ -69,7 +72,7 @@ function pickQuestion() {
         }
     }
     if (questions.length > 0) {
-        let newQuestion = questions[Math.floor(Math.random() * questions.length)]
+        let newQuestion = questions.splice(Math.floor(Math.random() * questions.length), 1)[0];
         currentQuestion = newQuestion;
 
         //Dynamically create and add elements using the stored properties of the question objects.
@@ -94,10 +97,8 @@ function submitQuestion() {
     for (let i = 0; i < answerList.children.length; i++) {
         if ((answerList.children[i].matches(".selected") && answerList.children[i].getAttribute("data-correct") === "true") || (answerList.children[i].matches(".selected") == false && answerList.children[i].getAttribute("data-correct") === "false")) {
             responseCorrect = true;
-            console.log("Response Correct: " + responseCorrect);
         } else {
             responseCorrect = false;
-            console.log("Response Correct: " + responseCorrect);
             break;
         }
     }
@@ -114,6 +115,8 @@ function submitQuestion() {
 }
 
 function startQuiz() {
+    document.querySelector("aside").style.display = "none";
+    document.getElementById("scores-link").textContent = "View Scores";
     welcome.style.display = "none";
     buildQuestionsArr();
     pickQuestion();
@@ -129,9 +132,47 @@ function countdown() {
         document.getElementById("mins").textContent = mins;
         document.getElementById("secs").textContent = secs;
     } else {
-        clearInterval(timer);
         endQuiz();
     }
 }
 
+function endQuiz() {
+    //Clear the timer, allow the user to save initials and score, and display scores.
+    clearInterval(timer);
+    mainSec.lastElementChild.style.display = "none";
+    saveScore.style.display = "block";
+    document.getElementById("final-score").textContent = secondsRemaining;
+}
+
 //For the scores, remember localStorage.setItem("Key", "Value") and localStorage.getItem("Key"). preventDefault() the Submit button for the initials associated with the score.
+function submitInitials(event) {
+    event.preventDefault();
+    let initials = document.getElementById("initials").value.toUpperCase();
+    const initialsStr = localStorage.getItem("initials");
+    const quizScoresStr = localStorage.getItem("quizScores");
+    let initialsArr = [];
+    let quizScoresArr = [];
+    if (initialsStr != null) {
+        initialsArr = initialsStr.split(",");
+        quizScoresArr = quizScoresStr.split(",");
+    }
+    let arrLength = initialsArr.push(initials);
+    quizScoresArr.push(secondsRemaining);
+    if (arrLength > 5) {
+        let minScore = 600;
+        for (i = 0; i < arrLength; i++) {
+            if (quizScoresArr[i] < minScore) {
+                minScore = quizScoresArr[i];
+            }
+        }
+        let index = quizScoresArr.indexOf(minScore);
+        initialsArr.splice(index, 1);
+        quizScoresArr.splice(index, 1);
+    }
+    localStorage.setItem("initials", initialsArr.toString());
+    localStorage.setItem("quizScores", quizScoresArr.toString());
+    document.querySelector("aside").style.display = "block";
+    document.getElementById("scores-link").textContent = "Hide Scores";
+    saveScore.style.display = "none";
+    welcome.style.display = "block";
+}

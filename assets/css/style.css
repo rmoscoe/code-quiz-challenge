@@ -35,9 +35,17 @@ header p {
     width:fit-content;
 }
 
-aside {
+#quiz-content {
+    display:flex;
+    flex-wrap: wrap;
+}
+
+aside, #save-score {
     background-color: var(--medium-light-accent);
     display:none;
+    flex:0 1 100%;
+    padding:0.7em;
+    /* color:var(--light-background-color); */
 }
 
 #score-list {
@@ -46,6 +54,7 @@ aside {
 
 main {
     padding:0.7em;
+    flex:0 1 100%
 }
 
 h1 {
@@ -68,6 +77,20 @@ button {
     font-size:16px;
     border:1px solid var(--dark-foreground-color);
     float:right;
+}
+
+#input-row {
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content:space-around;
+}
+
+#submit-initials {
+    background-color: var(--light-accent);
+    color:var(--dark-foreground-color);
+    border-radius:3px;
+    font-size:16px;
+    border:1px solid var(--dark-foreground-color);
 }
 
 h3 {
@@ -103,7 +126,7 @@ code {
 }
 
 footer {
-    margin-top:10%;
+    margin-top:1em;
     background-color:var(--light-accent);
     font-size:16px;
     text-align: center;
@@ -137,6 +160,18 @@ button:active {
     button {
         font-size: max(min(3vw, 28px), 1rem);
         margin-top:1rem;
+    }
+
+    #quiz-content {
+        flex-wrap:nowrap;
+    }
+
+    aside {
+        flex:0 1 30%;
+    }
+
+    main {
+        flex:0 1 70%;
     }
 
     footer {

@@ -15,19 +15,30 @@
         </header>
 
         <!-- The body should include a heading (title), a p (instructions), and a button (start timer, display:none the existing body content, and show first question). -->
-        <aside id="score-tracker">
-            <h2>Previous Scores</h2>
-            <section id="scores">
-                <ul id="score-list"></ul>
-            </section>
-        </aside>
-        <main>
-            <section id="welcome">
-                <h1>JavaScript Quiz</h1>
-                <p>When you are ready, click the Start Quiz button below to begin the quiz. You will have 10 minutes to answer 10 questions. For each incorrect answer, 20 seconds will be deducted from your remaining time. Your score will be the number of seconds remaining when you have answered all questions or when time runs out. Good luck!</p>
-                <button id="start">Start Quiz</button>
-            </section>
-        </main>
+        <div id="quiz-content">
+            <aside id="score-tracker">
+                <h2>High Scores</h2>
+                <section id="scores">
+                    <ul id="score-list"></ul>
+                </section>
+            </aside>
+            <main>
+                <section id="welcome">
+                    <h1>JavaScript Quiz</h1>
+                    <p>When you are ready, click the Start Quiz button below to begin the quiz. You will have 10 minutes to answer 10 questions. For each incorrect answer, 20 seconds will be deducted from your remaining time. Your score will be the number of seconds remaining when you have answered all questions or when time runs out. Good luck!</p>
+                    <button id="start">Start Quiz</button>
+                </section>
+                <form id="save-score">
+                    <h2>Quiz Complete</h2>
+                    <p>Your final score is <span id="final-score"></span> seconds remaining. To save your score, enter your initials and click Submit.</p>
+                    <div id="input-row">
+                        <label for="initials">Initials:</label>
+                        <input type="text" id="initials" name="initials" maxlength = "3" required/>
+                        <input type="submit" id="submit-initials" />
+                    </div>    
+                </form>
+            </main>
+        </div>
         <footer>
             <p>&copy 2022 Ryan Moscoe</p>
         </footer>
