@@ -6,6 +6,7 @@ const welcome = document.getElementById("welcome");
 const startButton = document.getElementById("start");
 const saveScore = document.getElementById("save-score");
 const initialsButton = document.getElementById("submit-initials");
+const scoresLink = document.getElementById("scores-link");
 const rawQuestions = ["Which of the following HTML tags runs JavaScript on a webpage?"];
 const multiSelectQuestion = [false];
 const rawCode = [""];
@@ -38,6 +39,7 @@ class Question {
 
 startButton.addEventListener("click", startQuiz);
 initialsButton.addEventListener("click", submitInitials);
+scoresLink.addEventListener("click", toggleScores);
 
 //Use an array to store question objects. When the Start button is clicked and each time a question is submitted, use a random number to select another question from the array, then remove that question from the array.
 function buildQuestionsArr() {
@@ -115,8 +117,9 @@ function submitQuestion() {
 }
 
 function startQuiz() {
+    document.querySelector("main").style.flex = "0 1 100%";
     document.querySelector("aside").style.display = "none";
-    document.getElementById("scores-link").textContent = "View Scores";
+    scoresLink.textContent = "View Scores";
     welcome.style.display = "none";
     buildQuestionsArr();
     pickQuestion();
@@ -172,7 +175,24 @@ function submitInitials(event) {
     localStorage.setItem("initials", initialsArr.toString());
     localStorage.setItem("quizScores", quizScoresArr.toString());
     document.querySelector("aside").style.display = "block";
-    document.getElementById("scores-link").textContent = "Hide Scores";
+    scoresLink.textContent = "Hide Scores";
+    if (window.matchMedia("min-width: 481px").matches) {
+        document.querySelector("main").style.flex = "0 1 70%";
+    }
     saveScore.style.display = "none";
     welcome.style.display = "block";
+}
+
+function toggleScores() {
+    if (scoresLink.textContent === "Hide Scores") {
+        document.querySelector("aside").style.display = "none";
+        scoresLink.textContent = "View Scores";
+        document.querySelector("main").style.flex = "0 1 100%";
+    } else {
+        document.querySelector("aside").style.display = "block";
+        scoresLink.textContent = "Hide Scores";
+        if (window.matchMedia("min-width: 481px").matches) {
+            document.querySelector("main").style.flex = "0 1 70%";
+        }
+    }
 }
