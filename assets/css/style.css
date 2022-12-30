@@ -45,11 +45,31 @@ aside, #save-score {
     display:none;
     flex:0 1 100%;
     padding:0.7em;
-    /* color:var(--light-background-color); */
 }
 
 #score-list {
-    list-style:none;
+    width:fit-content;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+tr {
+    display:flex;
+    flex-wrap: nowrap;
+    margin-bottom:0.2em;
+    width:100%;
+}
+
+.initials {
+    flex: 0 1 33%;
+    padding-right:1em;
+    text-align:right;
+    width:4em;
+}
+
+.score {
+    flex: 0 1 77%;
+    text-align:left;
 }
 
 main {

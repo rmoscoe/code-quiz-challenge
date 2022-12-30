@@ -151,14 +151,8 @@ function endQuiz() {
 function submitInitials(event) {
     event.preventDefault();
     let initials = document.getElementById("initials").value.toUpperCase();
-    const initialsStr = localStorage.getItem("initials");
-    const quizScoresStr = localStorage.getItem("quizScores");
-    let initialsArr = [];
-    let quizScoresArr = [];
-    if (initialsStr != null) {
-        initialsArr = initialsStr.split(",");
-        quizScoresArr = quizScoresStr.split(",");
-    }
+    let initialsArr = getInitials();
+    let quizScoresArr = getQuizScores();
     let arrLength = initialsArr.push(initials);
     quizScoresArr.push(secondsRemaining);
     if (arrLength > 5) {
@@ -176,6 +170,7 @@ function submitInitials(event) {
     localStorage.setItem("quizScores", quizScoresArr.toString());
     document.querySelector("aside").style.display = "block";
     scoresLink.textContent = "Hide Scores";
+    updateScores();
     if (window.matchMedia("min-width: 481px").matches) {
         document.querySelector("main").style.flex = "0 1 70%";
     }
@@ -191,8 +186,54 @@ function toggleScores() {
     } else {
         document.querySelector("aside").style.display = "block";
         scoresLink.textContent = "Hide Scores";
+        updateScores();
         if (window.matchMedia("min-width: 481px").matches) {
             document.querySelector("main").style.flex = "0 1 70%";
         }
+    }
+}
+
+function getInitials() {
+    const initialsStr = localStorage.getItem("initials");
+    let initialsArr = [];
+    if (initialsStr != null) {
+        initialsArr = initialsStr.split(",");
+    }
+    return initialsArr;
+}
+
+function getQuizScores() {
+    const quizScoresStr = localStorage.getItem("quizScores");
+    let quizScoresArr = [];
+    if (quizScoresStr != null) {
+        quizScoresArr = quizScoresStr.split(",");
+    }
+    return quizScoresArr;
+}
+
+function updateScores() {
+    const scoreList = document.getElementById("score-list");
+    let existingScores = document.querySelectorAll(".score-row");
+    for (let i = 0; i < existingScores.length; i++) {
+        existingScores[i].remove();
+    }
+    let initialsArr = getInitials();
+    let quizScoresArr = getQuizScores();
+    for (let i = 0; i < initialsArr.length; i++) {
+        let scoreRow = document.createElement("tr");
+        scoreRow.id = "score-row-" + i;
+        scoreRow.className = "score-row";
+        scoreList.appendChild(scoreRow);
+        let initials = document.createElement("td");
+        initials.id = "score-row-" + i + "-initials";
+        initials.className = "initials";
+        let row = document.getElementById("score-row-" + i);
+        row.appendChild(initials);
+        initials.textContent = initialsArr[i];
+        let score = document.createElement("td");
+        score.id = "score-row-" + i + "-score";
+        score.className = "score";
+        row.appendChild(score);
+        score.textContent = quizScoresArr[i];
     }
 }
