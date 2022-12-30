@@ -7,11 +7,11 @@ const startButton = document.getElementById("start");
 const saveScore = document.getElementById("save-score");
 const initialsButton = document.getElementById("submit-initials");
 const scoresLink = document.getElementById("scores-link");
-const rawQuestions = ["Which of the following HTML tags runs JavaScript on a webpage?"];
-const multiSelectQuestion = [false];
-const rawCode = [""];
-const rawAnswers = [[{text:"&ltlink&gt", dataCorrect:false}, {text:"&lta&gt", dataCorrect:false}, {text:"&ltscript&gt", dataCorrect:true}, {text:"&lthref&gt", dataCorrect:false}]];
-const rawFeedback = ["The <script> tag runs JavaScript. The <link> tag links a CSS stylesheet, the <a> tag creates a hyperlink, and href is not a tag; it is an attribute of the <a> tag."]
+const rawQuestions = ["Which of the following HTML tags runs JavaScript on a webpage?", "Which of the following punctuation marks should be added to the end of each statement?", "What does the following line of code do?"];
+const multiSelectQuestion = [false, false, false];
+const rawCode = ["","","console.log('Hello world!');"];
+const rawAnswers = [[{text:"&ltlink&gt", dataCorrect:false}, {text:"&lta&gt", dataCorrect:false}, {text:"&ltscript&gt", dataCorrect:true}, {text:"&lthref&gt", dataCorrect:false}],[{text:"Period (.)", dataCorrect:false}, {text:"Semicolon (;)", dataCorrect:true}, {text:"Colon (:)", dataCorrect:false}, {text:"Comma (,)", dataCorrect:false}], [{text:"It logs the text 'Hello world!' to the console.", dataCorrect:true}, {text:"It displays the text 'Hello world!' in the browser window.", dataCorrect:false}, {text:"It throws an error because it is not properly formatted.", dataCorrect:false}, {text:"It acts as a comment, which is ignored by the browser.", dataCorrect:false}]];
+const rawFeedback = ["The <script> tag runs JavaScript. The <link> tag links a CSS stylesheet, the <a> tag creates a hyperlink, and href is not a tag; it is an attribute of the <a> tag.", "Each statement should end with a semicolon (;).", "This statement logs the text 'Hello world!' to the console."]
 let questions = [];
 let multiSelect = false;
 let secondsRemaining = 600;
@@ -31,7 +31,7 @@ class Question {
         this.feedback = feedback;
         this.section = document.createElement("section");
         this.section.className = "question";
-        this.section.innerHTML = "<h3>" + this.question + "</h3> <br /> <code>" + this.code + "</code><br /> <ul class = 'answers'><li class = 'answer-choice' data-correct = '" + this.answers[0].dataCorrect + "'>" + this.answers[0].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[1].dataCorrect + "'>" + this.answers[1].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[2].dataCorrect + "'>" + this.answers[2].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[3].dataCorrect + "'>" + this.answers[3].text + "</li></ul><br /> <button class = 'submit'>Submit</button>";
+        this.section.innerHTML = "<h3>" + this.question + "</h3> <div class='codeblock'><code>" + this.code + "</code></div><br /> <br /> <ul class = 'answers'><li class = 'answer-choice' data-correct = '" + this.answers[0].dataCorrect + "'>" + this.answers[0].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[1].dataCorrect + "'>" + this.answers[1].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[2].dataCorrect + "'>" + this.answers[2].text + "</li><li class = 'answer-choice' data-correct = '" + this.answers[3].dataCorrect + "'>" + this.answers[3].text + "</li></ul><br /> <button class = 'submit'>Submit</button>";
 
         idCounter++;
     }
@@ -67,18 +67,19 @@ function toggleSelected(event) {
 }
 
 function pickQuestion() {
-    let prevQuestions = document.getElementsByClassName(".question");
-    if (prevQuestions.length > 0) {
-        for (element in prevQuestions) {
-            element.style.display = "none";
-        }
-    }
+    let prevQuestion = mainSec.lastElementChild;
+    prevQuestion.style.display = "none";
     if (questions.length > 0) {
-        let newQuestion = questions.splice(Math.floor(Math.random() * questions.length), 1)[0];
+        let randNum = Math.random();
+        let newQuestion = questions.splice(Math.floor(randNum * questions.length), 1)[0];
         currentQuestion = newQuestion;
 
         //Dynamically create and add elements using the stored properties of the question objects.
         mainSec.appendChild(newQuestion.section);
+        if (mainSec.lastElementChild.children[1].textContent === "") {
+            mainSec.lastElementChild.children[1].style.display = "none";
+            mainSec.lastElementChild.children[2].style.display = "none";
+        }
         let answerBoxes = document.querySelectorAll(".answer-choice");
         answerBoxes.forEach(answer => {
         answer.addEventListener("click", toggleSelected);

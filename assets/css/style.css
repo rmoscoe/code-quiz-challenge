@@ -56,7 +56,6 @@ aside, #save-score {
 tr {
     display:flex;
     flex-wrap: nowrap;
-    margin-bottom:0.2em;
     width:100%;
 }
 
@@ -113,17 +112,27 @@ button {
     border:1px solid var(--dark-foreground-color);
 }
 
+.question {
+    justify-content:center;
+}
+
 h3 {
     font-size:170%;
     text-align:justify;
 }
 
+.codeblock {
+    background-color:var(--dark-foreground-color);
+    margin-left:3%;
+    margin-right:3%;
+    padding:1em;
+}
+
 code {
-    color:var(--medium-dark-accent);
-    overflow: scroll;
-    background-color: var(--light-accent);
-    margin-left:5%;
-    margin-right:5%;
+    color:var(--light-accent);
+    overflow:scroll;
+    background-color: var(--dark-foreground-color);
+    width:fit-content;
 }
 
 .answers {
