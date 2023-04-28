@@ -112,7 +112,7 @@ High scores are displayed automatically after the user enters his/her initials, 
 ### Ryan Moscoe 
 
 
-* [Portfolio](https://rmoscoe.github.io/portfolio/)
+* [Portfolio](https://rmoscoe.github.io/my-portfolio/)
 * [LinkedIn](https://www.linkedin.com/in/ryan-moscoe-8652973/)
 * [Github](https://github.com/rmoscoe)
 <br/>
